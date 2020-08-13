@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ASPcore3Homework.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,36 +14,22 @@ namespace ASPcore3Homework.Controllers
     [ApiController]
     public class vwCourseStudentCountController : ControllerBase
     {
+
+        private readonly ContosouniversityContext _context;
+
+        public vwCourseStudentCountController(ContosouniversityContext context)
+        {
+            _context = context;
+        }
         // GET: api/<vwCourseStudentCountController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ActionResult Get()
         {
-            return new string[] { "value1", "value2" };
-        }
-
-        // GET api/<vwCourseStudentCountController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<vwCourseStudentCountController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<vwCourseStudentCountController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<vwCourseStudentCountController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            return Ok(_context.VwCourseStudentCount
+            .FromSqlRaw(@"SELECT [DepartmentID],[Name],[CourseID],[Title],[StudentCount]
+              FROM [ContosoUniversity].[dbo].[vwCourseStudentCount]")
+            .ToList()
+            );
         }
     }
 }
