@@ -51,7 +51,7 @@ namespace ASPcore3Homework.Controllers
             {
                 return BadRequest();
             }
-
+            course.DateModified = DateTime.Now;
             _context.Entry(course).State = EntityState.Modified;
 
             try
