@@ -45,6 +45,7 @@ namespace ASPcore3Homework.Models
                     .WithMany(p => p.Course)
                     .HasForeignKey(d => d.DepartmentId)
                     .HasConstraintName("FK_dbo.Course_dbo.Department_DepartmentID");
+                entity.HasQueryFilter(p => !p.IsDeleted);
             });
 
             modelBuilder.Entity<CourseInstructor>(entity =>
@@ -97,6 +98,7 @@ namespace ASPcore3Homework.Models
                     .WithMany(p => p.Department)
                     .HasForeignKey(d => d.InstructorId)
                     .HasConstraintName("FK_dbo.Department_dbo.Instructor_InstructorID");
+                entity.HasQueryFilter(p => !p.IsDeleted);
             });
 
             modelBuilder.Entity<Enrollment>(entity =>
@@ -165,6 +167,8 @@ namespace ASPcore3Homework.Models
                 entity.Property(e => e.LastName)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.HasQueryFilter(p => !p.IsDeleted);
             });
 
             modelBuilder.Entity<VwCourseStudentCount>(entity =>
