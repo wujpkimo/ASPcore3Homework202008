@@ -20,11 +20,12 @@ namespace ASPcore3Homework.Controllers
         {
             _context = context;
         }
+
         // GET: api/<vwDepartmentCourseCountController>
         [HttpGet]
         public ActionResult Get()
         {
-            return Ok(_context.VwCourseStudentCount
+            return Ok(_context.VwDepartmentCourseCount
             .FromSqlRaw(@"SELECT [DepartmentID],[Name],[CourseCount]  FROM [ContosoUniversity].[dbo].[vwDepartmentCourseCount]")
             .ToList()
             );

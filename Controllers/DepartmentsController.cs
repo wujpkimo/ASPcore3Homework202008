@@ -78,12 +78,25 @@ namespace ASPcore3Homework.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Department>> PostDepartment(Department department)
+        public ActionResult PostDepartment(Department department)
         {
-            _context.Department.Add(department);
-            await _context.SaveChangesAsync();
+            //_context.Department.Add(department);
+            //_context.SaveChanges();
 
-            return CreatedAtAction("GetDepartment", new { id = department.DepartmentId }, department);
+            //department = _context.Department.FromSqlInterpolated($"EXECUTE dbo.department_insert @name={department.Name},@budget={department.Budget},@startdate={department.StartDate},@instructorId={department.InstructorId}").FirstOrDefault();
+
+            //return CreatedAtAction("GetDepartment", new { id = department.DepartmentId }, department);
+
+            //return Ok(_context.Department.FromSqlInterpolated($"EXECUTE dbo.department_insert @name={department.Name},@budget={department.Budget},@startdate={department.StartDate},@instructorId={department.InstructorId}").IgnoreQueryFilters()
+            //    .Select(x => new { x.DepartmentId })
+            //    .ToList());
+
+            return CreatedAtAction("GetDepartment", new
+            {
+                id = _context.Department.FromSqlInterpolated($"EXECUTE dbo.department_insert @name={department.Name},@budget={department.Budget},@startdate={department.StartDate},@instructorId={department.InstructorId}").IgnoreQueryFilters()
+                .Select(x => new { x.DepartmentId })
+                .ToList().FirstOrDefault()
+            }, null);
         }
 
         // DELETE: api/Departments/5
